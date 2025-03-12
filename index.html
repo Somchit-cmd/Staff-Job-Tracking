@@ -56,6 +56,8 @@
                   type="text"
                   placeholder="ລະບຸຊື່ຂອງທ່ານ"
                   name="emp_name"
+                  value="ທ່ານ ຕຸ້ຍ ແສງຈັນດີ"
+                  readonly
                   required
                 />
               </div>
@@ -78,19 +80,6 @@
                 </select>
               </div>
             </div>
-
-            <!-- <div class="field">
-              <label class="label">ເວລາເລີ່ມວຽກ</label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="datetime-local"
-                  name="job_start"
-                  readonly
-                  required
-                />
-              </div>
-            </div> -->
 
             <div class="field">
               <label class="label">ເວລາເລີ່ມວຽກ</label>
@@ -137,31 +126,6 @@
                 />
               </div>
             </div>
-
-            <!-- <div class="field">
-              <label class="label">ທີ່ຕັ້ງ</label>
-              <div class="field has-addons">
-                <div class="control is-expanded">
-                  <input
-                    class="input"
-                    type="text"
-                    placeholder="ໂລເຄຊັ້ນ"
-                    name="job_gps_location"
-                    id="job_gps_location"
-                    required
-                  />
-                </div>
-                <div class="control">
-                  <button
-                    type="button"
-                    class="button is-info"
-                    id="get-location"
-                  >
-                    📍
-                  </button>
-                </div>
-              </div>
-            </div> -->
 
             <div class="field">
               <label class="label">ທີ່ຕັ້ງ</label>
@@ -312,61 +276,6 @@
             alert("ບຣາວເຊີຂອງທ່ານບໍ່ຮອງຮັບການຂໍຂໍ້ມູນທີ່ຕັ້ງ.");
           }
         });
-
-      //   document
-      //     .getElementById("get-location")
-      //     .addEventListener("click", function () {
-      //       if ("geolocation" in navigator) {
-      //         navigator.geolocation.getCurrentPosition(
-      //           function (position) {
-      //             var latitude = position.coords.latitude;
-      //             var longitude = position.coords.longitude;
-
-      //             // Create Google Maps link with coordinates
-      //             var googleMapsUrl =
-      //               "https://www.google.com/maps?q=" + latitude + "," + longitude;
-
-      //             // Set the value to the complete Google Maps URL
-      //             document.getElementById("job_gps_location").value =
-      //               googleMapsUrl;
-
-      //             // Log to console to verify the URL is complete
-      //             console.log("Location set to: " + googleMapsUrl);
-      //           },
-      //           function (error) {
-      //             alert("ບໍ່ສາມາດດຶງສະຖານທີ່ໄດ້: " + error.message);
-      //           },
-      //           {
-      //             enableHighAccuracy: true,
-      //             timeout: 5000,
-      //             maximumAge: 0,
-      //           }
-      //         );
-      //       } else {
-      //         alert("ບຣາວເຊີຂອງທ່ານບໍ່ຮອງຮັບການຂໍຂໍ້ມູນທີ່ຕັ້ງ.");
-      //       }
-      //     });
-
-      //   // Add a check before form submission to ensure location data is complete
-      //   document.getElementById("form").addEventListener("submit", function (e) {
-      //     var locationField = document.getElementById("job_gps_location").value;
-
-      //     // Check if the location field contains coordinates (has a comma and numbers)
-      //     if (
-      //       locationField === "" ||
-      //       locationField === "https://www.google.com/maps?q=" ||
-      //       !locationField.includes(",")
-      //     ) {
-      //       // If coordinates are missing, try to get location again
-      //       if (confirm("ທີ່ຕັ້ງບໍ່ຄົບຖ້ວນ. ຕ້ອງການຮັບທີ່ຕັ້ງອີກຄັ້ງບໍ?")) {
-      //         e.preventDefault(); // Prevent form submission
-      //         document.getElementById("get-location").click(); // Trigger location button
-      //         return false;
-      //       }
-      //     }
-      //     // Continue with the existing submit handler
-      //   });
-      //
     </script>
 
     <script>
