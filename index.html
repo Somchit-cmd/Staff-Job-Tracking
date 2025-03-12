@@ -79,14 +79,35 @@
               </div>
             </div>
 
-            <div class="field">
+            <!-- <div class="field">
               <label class="label">ເວລາເລີ່ມວຽກ</label>
               <div class="control">
                 <input
                   class="input"
                   type="datetime-local"
                   name="job_start"
+                  readonly
                   required
+                />
+              </div>
+            </div> -->
+
+            <div class="field">
+              <label class="label">ເວລາເລີ່ມວຽກ</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  name="job_start"
+                  id="job_start"
+                  readonly
+                  required
+                />
+                <!-- Hidden input to store the actual datetime value for form submission -->
+                <input
+                  type="hidden"
+                  name="job_start_hidden"
+                  id="job_start_hidden"
                 />
               </div>
             </div>
@@ -117,16 +138,53 @@
               </div>
             </div>
 
+            <!-- <div class="field">
+              <label class="label">ທີ່ຕັ້ງ</label>
+              <div class="field has-addons">
+                <div class="control is-expanded">
+                  <input
+                    class="input"
+                    type="text"
+                    placeholder="ໂລເຄຊັ້ນ"
+                    name="job_gps_location"
+                    id="job_gps_location"
+                    required
+                  />
+                </div>
+                <div class="control">
+                  <button
+                    type="button"
+                    class="button is-info"
+                    id="get-location"
+                  >
+                    📍
+                  </button>
+                </div>
+              </div>
+            </div> -->
+
             <div class="field">
               <label class="label">ທີ່ຕັ້ງ</label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="text"
-                  placeholder="ໂລເຄຊັ້ນ"
-                  name="job_gps_location"
-                  required
-                />
+              <div class="field has-addons">
+                <div class="control is-expanded">
+                  <input
+                    class="input"
+                    type="text"
+                    placeholder="ໂລເຄຊັ້ນ"
+                    name="job_gps_location"
+                    id="job_gps_location"
+                    required
+                  />
+                </div>
+                <div class="control">
+                  <button
+                    type="button"
+                    class="button is-info"
+                    id="get-location"
+                  >
+                    📍
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -137,7 +195,7 @@
                   type="submit"
                   id="submit-button"
                 >
-                  ເລີ່ມວຽກ
+                  ລາຍງານ
                 </button>
               </div>
               <div class="control">
@@ -177,7 +235,7 @@
 
         // Send a POST request to your Google Apps Script
         fetch(
-          "https://script.google.com/macros/s/AKfycbxbzU0qf77Gmz71zXb8G5R_K-Bf_YLW7tZ20gXMD_hwfo4I2WKtJsjH0DsCsSQsyCuR3g/exec",
+          "https://script.google.com/macros/s/AKfycbxdm9YM09mzBCcAEUq16cAca1C7eauWhqDlgQnFeF46S42ZY0SXjPINIgvQeZZht50f/exec",
           {
             redirect: "follow",
             method: "POST",
@@ -217,6 +275,130 @@
               "ເກີດຂໍ້ຜິດພາດໃນຂະນະທີ່ກຳລັງສົ່ງຂໍ້ມູນ";
             document.getElementById("message").style.display = "block";
           });
+      });
+    </script>
+
+    <script>
+      document
+        .getElementById("get-location")
+        .addEventListener("click", function () {
+          if ("geolocation" in navigator) {
+            // Show loading indicator
+            document.getElementById("job_gps_location").value =
+              "ກຳລັງຊອກຫາທີ່ຕັ້ງ...";
+
+            navigator.geolocation.getCurrentPosition(
+              function (position) {
+                // Just store the raw coordinates - nothing else
+                var latitude = position.coords.latitude.toFixed(6);
+                var longitude = position.coords.longitude.toFixed(6);
+
+                // Format as simple string instead of URL
+                var locationString = latitude + "," + longitude;
+                document.getElementById("job_gps_location").value =
+                  locationString;
+              },
+              function (error) {
+                alert("ບໍ່ສາມາດດຶງສະຖານທີ່ໄດ້: " + error.message);
+                document.getElementById("job_gps_location").value = "";
+              },
+              {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0,
+              }
+            );
+          } else {
+            alert("ບຣາວເຊີຂອງທ່ານບໍ່ຮອງຮັບການຂໍຂໍ້ມູນທີ່ຕັ້ງ.");
+          }
+        });
+
+      //   document
+      //     .getElementById("get-location")
+      //     .addEventListener("click", function () {
+      //       if ("geolocation" in navigator) {
+      //         navigator.geolocation.getCurrentPosition(
+      //           function (position) {
+      //             var latitude = position.coords.latitude;
+      //             var longitude = position.coords.longitude;
+
+      //             // Create Google Maps link with coordinates
+      //             var googleMapsUrl =
+      //               "https://www.google.com/maps?q=" + latitude + "," + longitude;
+
+      //             // Set the value to the complete Google Maps URL
+      //             document.getElementById("job_gps_location").value =
+      //               googleMapsUrl;
+
+      //             // Log to console to verify the URL is complete
+      //             console.log("Location set to: " + googleMapsUrl);
+      //           },
+      //           function (error) {
+      //             alert("ບໍ່ສາມາດດຶງສະຖານທີ່ໄດ້: " + error.message);
+      //           },
+      //           {
+      //             enableHighAccuracy: true,
+      //             timeout: 5000,
+      //             maximumAge: 0,
+      //           }
+      //         );
+      //       } else {
+      //         alert("ບຣາວເຊີຂອງທ່ານບໍ່ຮອງຮັບການຂໍຂໍ້ມູນທີ່ຕັ້ງ.");
+      //       }
+      //     });
+
+      //   // Add a check before form submission to ensure location data is complete
+      //   document.getElementById("form").addEventListener("submit", function (e) {
+      //     var locationField = document.getElementById("job_gps_location").value;
+
+      //     // Check if the location field contains coordinates (has a comma and numbers)
+      //     if (
+      //       locationField === "" ||
+      //       locationField === "https://www.google.com/maps?q=" ||
+      //       !locationField.includes(",")
+      //     ) {
+      //       // If coordinates are missing, try to get location again
+      //       if (confirm("ທີ່ຕັ້ງບໍ່ຄົບຖ້ວນ. ຕ້ອງການຮັບທີ່ຕັ້ງອີກຄັ້ງບໍ?")) {
+      //         e.preventDefault(); // Prevent form submission
+      //         document.getElementById("get-location").click(); // Trigger location button
+      //         return false;
+      //       }
+      //     }
+      //     // Continue with the existing submit handler
+      //   });
+      //
+    </script>
+
+    <script>
+      // Function to set the current date and time
+      function setCurrentDateTime() {
+        const now = new Date();
+
+        // Format for display (dd/mm/yyyy --:--)
+        const day = String(now.getDate()).padStart(2, "0");
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        const year = now.getFullYear();
+        const hours = String(now.getHours()).padStart(2, "0");
+        const minutes = String(now.getMinutes()).padStart(2, "0");
+
+        const displayFormat = `${day}/${month}/${year} ${hours}:${minutes}`;
+
+        // Format for form submission (ISO format)
+        const isoFormat = now.toISOString();
+
+        // Set values
+        document.getElementById("job_start").value = displayFormat;
+        document.getElementById("job_start_hidden").value = isoFormat;
+      }
+
+      // Set current date and time when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        setCurrentDateTime();
+      });
+
+      // Add to form submission to ensure time is current when form is submitted
+      document.getElementById("form").addEventListener("submit", function () {
+        setCurrentDateTime();
       });
     </script>
   </body>
